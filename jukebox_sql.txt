@@ -1,0 +1,30 @@
+create database this_juke_db;
+use this_juke_db;
+CREATE TABLE SongTable (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    artist VARCHAR(255) NOT NULL,
+    album VARCHAR(255),
+    genre VARCHAR(255) NOT NULL,
+    fileFormat VARCHAR(10) NOT NULL
+);
+ALTER TABLE SongTable
+ADD COLUMN songPath VARCHAR(100) ;
+ALTER TABLE SongTable MODIFY COLUMN songPath VARCHAR(255) DEFAULT NULL;
+
+
+CREATE TABLE PlaylistTable (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL
+);
+CREATE TABLE PlaylistSongTable (
+    playlist_id INT,
+    song_id INT,
+    FOREIGN KEY (playlist_id) REFERENCES PlaylistTable(id),
+    FOREIGN KEY (song_id) REFERENCES SongTable(id),
+    PRIMARY KEY (playlist_id, song_id),
+    songPath VARCHAR(250) DEFAULT NULL
+);
+
+UPDATE PlaylistSongTable pst INNER JOIN SongTable st ON pst.song_id = st.id SET pst.songPath = st.songPath;
+select songpath from songtable where id = 2;  
